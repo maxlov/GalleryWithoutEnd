@@ -6,9 +6,12 @@ using TMPro;
 
 public class ArtFrame : MonoBehaviour
 {
-    [SerializeField] HamApiManager ArtManager;
+    [SerializeField] private GameObject ArtManager;
+    private IApiManager ArtManagerInterface;
 
     [SerializeField] private Image artwork;
+    [SerializeField] private AspectRatioFitter aspectFitter;
+
     [SerializeField] private TextMeshProUGUI title;
     [SerializeField] private TextMeshProUGUI artist;
     [SerializeField] private TextMeshProUGUI description;
@@ -18,6 +21,8 @@ public class ArtFrame : MonoBehaviour
     private void Start()
     {
         ArtPiece = ScriptableObject.CreateInstance<ArtSO>();
+        if (!ArtManager.TryGetComponent<IApiManager>(out ArtManagerInterface))
+            Debug.LogError("No IApiManager component found on ArtManager");
     }
 
     public void GetArtFromManager()
@@ -27,15 +32,20 @@ public class ArtFrame : MonoBehaviour
 
     IEnumerator SetupArtPiece()
     {
-        yield return ArtManager.RequestRandomArt(ArtPiece);
+        yield return ArtManagerInterface.RequestRandomArt(ArtPiece);
         UpdateUI();
     }
 
     void UpdateUI()
     {
+        // Setup and scale artwork
         artwork.enabled = false;
-        artwork.material.mainTexture = ArtPiece.Art;
-        artwork.rectTransform.sizeDelta = new Vector2(ArtPiece.Art.width, ArtPiece.Art.height);
+        var rect = new Rect(0, 0, ArtPiece.Art.width, ArtPiece.Art.height);
+        artwork.sprite = Sprite.Create(ArtPiece.Art, rect, artwork.transform.position);
+        artwork.type = Image.Type.Simple;
+        artwork.preserveAspect = true;
+        Debug.Log($"Art Size: {ArtPiece.Art.width} by {ArtPiece.Art.height}");
+        aspectFitter.aspectRatio = (float)ArtPiece.Art.width / ArtPiece.Art.height;
         artwork.enabled = true;
 
         title.text = ArtPiece.Title;

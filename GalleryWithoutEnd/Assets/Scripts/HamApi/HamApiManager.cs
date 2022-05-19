@@ -5,7 +5,7 @@ using UnityEngine.Networking;
 using Newtonsoft.Json;
 using HamApi.ObjectInfo;
 
-public class HamApiManager : MonoBehaviour
+public class HamApiManager : MonoBehaviour, IApiManager
 {
     [SerializeField]
     private string ApiKey;
@@ -22,7 +22,7 @@ public class HamApiManager : MonoBehaviour
 
         Debug.Log(artUrl);
 
-        yield return RequestArtData(artUrl);
+        yield return RequestArtData("https://api.harvardartmuseums.org/object?size=1&page=39354&apikey=2ec9806e-146f-4c71-9b2d-c10b0411bf15");
 
         string artImageUrl = data.records[0].images[0].baseimageurl;
 
