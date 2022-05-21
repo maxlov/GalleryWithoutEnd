@@ -1,12 +1,10 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
 
-namespace MetMuseumApi.Endpoints.Object
+namespace MetMuseumApi.Endpoints.Item
 {
-    // Root myDeserializedClass = JsonConvert.DeserializeObject<Root>(myJsonResponse);
-    // Root myDeserializedClass = JsonConvert.DeserializeObject<Root>(myJsonResponse);
+    // Classes for Met API object endpoint
     public class Constituent
     {
         public int constituentID { get; set; }

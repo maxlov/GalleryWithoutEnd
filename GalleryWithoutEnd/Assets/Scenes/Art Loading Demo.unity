@@ -286,6 +286,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c47037d07b4afe94dbfa6d5e29d32e06, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  searchTerm: medium=Oil|Canvas&q=oil
 --- !u!4 &425054509
 Transform:
   m_ObjectHideFlags: 0

@@ -17,22 +17,28 @@ public class HamApiManager : MonoBehaviour, IApiManager
 
     public IEnumerator RequestRandomArt(ArtSO artPiece)
     {
+        // Generate random number for art URL
         int artNumber = Random.Range(1, 239689);
         artUrl = $"https://api.harvardartmuseums.org/object?size=1&page={artNumber}&apikey={ApiKey}";
 
         Debug.Log(artUrl);
 
+        // Get art data
         yield return RequestArtData("https://api.harvardartmuseums.org/object?size=1&page=39354&apikey=2ec9806e-146f-4c71-9b2d-c10b0411bf15");
 
+        // Snag URL for art image
         string artImageUrl = data.records[0].images[0].baseimageurl;
 
+        // Download art image to artTexture
         yield return RequestArtImage(artImageUrl);
 
+        // Setup art object
         ArtObjectSetup(artPiece, data, artTexture);
     }
 
     IEnumerator RequestArtData(string url)
     {
+        // Pulls Json data into a custom class object
         UnityWebRequest artRequest = UnityWebRequest.Get(url);
 
         yield return artRequest.SendWebRequest();
@@ -49,6 +55,7 @@ public class HamApiManager : MonoBehaviour, IApiManager
 
     IEnumerator RequestArtImage(string url)
     {
+        // Downloads url as texture
         UnityWebRequest artImageRequest = UnityWebRequestTexture.GetTexture(url);
 
         yield return artImageRequest.SendWebRequest();
@@ -64,6 +71,8 @@ public class HamApiManager : MonoBehaviour, IApiManager
 
     private void ArtObjectSetup(ArtSO artPiece, Root data, Texture2D artTexture)
     {
+        // Sets up art object with data
+
         if (data.records[0].titlescount > 0)
             artPiece.Title = data.records[0].title;
 

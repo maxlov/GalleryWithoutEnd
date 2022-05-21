@@ -4,5 +4,8 @@ using UnityEngine;
 
 public interface IApiManager
 {
+    // Interface so ArtFrame will always be happy with whichever API is being used.
+    // Might be better to use a baseclass instead
+
     public IEnumerator RequestRandomArt(ArtSO artPiece);
 }
