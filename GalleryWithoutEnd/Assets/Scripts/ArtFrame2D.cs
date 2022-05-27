@@ -31,24 +31,19 @@ public class ArtFrame2D : MonoBehaviour
         // Get IApiManager, used because unity doesn't like serializing interfaces
         if (!ArtManager.TryGetComponent<IApiManager>(out ArtManagerInterface))
             Debug.LogError("No IApiManager component found on ArtManager");
+
+        GetArtFromManager();
     }
 
     /// <summary>
-    /// Starts coroutine to set up ArtSO using ArtManager
+    /// Calls art manager to set up ArtSO
     /// </summary>
     public void GetArtFromManager()
     {
-        // Coroutine to wait until artSO is properly setup before updating UI
-        StartCoroutine(SetupArtPiece());
+        // Request art and art data from manager
+        ArtManagerInterface.QueueArtRequest(ArtPiece);
     }
 
-    /// <summary>
-    /// Calls the art manager to update the ArtSO and then updates UI
-    /// </summary>
-    IEnumerator SetupArtPiece()
-    {
-        yield return ArtManagerInterface.ArtRequest(ArtPiece);
-    }
 
     /// <summary>
     /// Sets up sprite with art, scales UI, and applies ArtSO text to text UI

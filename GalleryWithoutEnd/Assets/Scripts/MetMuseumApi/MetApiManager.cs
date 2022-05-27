@@ -21,7 +21,7 @@ namespace MetMuseumApi
 
         private CoroutineQueue queue;
 
-        private void Start()
+        private void Awake()
         {
             // Setup coroutine queue to allow only one coroutine at a time
             queue = new CoroutineQueue(1, StartCoroutine);
