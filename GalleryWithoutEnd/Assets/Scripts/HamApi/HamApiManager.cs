@@ -15,7 +15,14 @@ public class HamApiManager : MonoBehaviour, IApiManager
 
     private string artUrl;
 
-    public IEnumerator RequestRandomArt(ArtSO artPiece)
+    private CoroutineQueue queue;
+
+    public void QueueArtRequest(ArtSO artPiece)
+    {
+        queue.Run(ArtRequest(artPiece));
+    }
+
+    public IEnumerator ArtRequest(ArtSO artPiece)
     {
         // Generate random number for art URL
         int artNumber = Random.Range(1, 239689);

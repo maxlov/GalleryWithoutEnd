@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.Events;
 using TMPro;
 
 public class ArtFrame2D : MonoBehaviour
@@ -25,7 +26,9 @@ public class ArtFrame2D : MonoBehaviour
         // Create artpiece instance to use for frame
         ArtPiece = ScriptableObject.CreateInstance<ArtSO>();
 
-        // Get IApiManager, used because unity doesn't like serialized interfaces
+        ArtPiece.ReceivedData.AddListener(UpdateUI);
+
+        // Get IApiManager, used because unity doesn't like serializing interfaces
         if (!ArtManager.TryGetComponent<IApiManager>(out ArtManagerInterface))
             Debug.LogError("No IApiManager component found on ArtManager");
     }
@@ -44,8 +47,7 @@ public class ArtFrame2D : MonoBehaviour
     /// </summary>
     IEnumerator SetupArtPiece()
     {
-        yield return ArtManagerInterface.RequestRandomArt(ArtPiece);
-        UpdateUI();
+        yield return ArtManagerInterface.ArtRequest(ArtPiece);
     }
 
     /// <summary>
