@@ -5,7 +5,7 @@ using UnityEngine.UI;
 using UnityEngine.Events;
 using TMPro;
 
-public class ArtFrame2D : MonoBehaviour
+public class ArtFrame : MonoBehaviour
 {
     [SerializeField] private GameObject ArtManager;
     private IApiManager ArtManagerInterface;
@@ -23,14 +23,15 @@ public class ArtFrame2D : MonoBehaviour
 
     private void Start()
     {
-        // Create artpiece instance to use for frame
         ArtPiece = ScriptableObject.CreateInstance<ArtSO>();
 
         ArtPiece.ReceivedData.AddListener(UpdateUI);
 
-        // Get IApiManager, used because unity doesn't like serializing interfaces
         if (!ArtManager.TryGetComponent<IApiManager>(out ArtManagerInterface))
+        {
             Debug.LogError("No IApiManager component found on ArtManager");
+            return;
+        }
 
         GetArtFromManager();
     }
@@ -40,7 +41,6 @@ public class ArtFrame2D : MonoBehaviour
     /// </summary>
     public void GetArtFromManager()
     {
-        // Request art and art data from manager
         ArtManagerInterface.QueueArtRequest(ArtPiece);
     }
 
@@ -50,37 +50,39 @@ public class ArtFrame2D : MonoBehaviour
     /// </summary>
     void UpdateUI()
     {
-        // Setup and scale artwork
-
         artwork.enabled = false;
 
-        // Creates new rect for artwork, then creates sprite with it
         var rect = new Rect(0, 0, ArtPiece.Art.width, ArtPiece.Art.height);
+
         artwork.sprite = Sprite.Create(ArtPiece.Art, rect, artwork.transform.position);
 
         artwork.type = Image.Type.Simple;
         artwork.preserveAspect = true;
 
-        // Sets up aspect ratio so the fitter functions corecctly
-        float aspectRatio = (float)ArtPiece.Art.width / ArtPiece.Art.height;
-        aspectFitter.aspectRatio = aspectRatio;
-
-        // Round aspect ratio to 2 decimal places to more easily
-        // make frame for square aspect ratio 
-        aspectRatio = Mathf.Round(aspectRatio * 100.0f) * 0.01f;
-
-        // Select frame based on aspect ratio, for landscape, portrait, and square respectively
-        if (aspectRatio > 1)
-            frame.sizeDelta = new Vector2(550, 420);
-        else if (aspectRatio < 1)
-            frame.sizeDelta = new Vector2(350, 420);
-        else
-            frame.sizeDelta = new Vector2(420, 420);
+        SetupAspectRatio();
 
         artwork.enabled = true;
 
         title.text = ArtPiece.Title;
         artist.text = ArtPiece.Artist;
         description.text = ArtPiece.Description;
+    }
+
+    /// <summary>
+    /// Sets up ascpect ratio based on image size
+    /// </summary>
+    void SetupAspectRatio()
+    {
+        float aspectRatio = (float)ArtPiece.Art.width / ArtPiece.Art.height;
+        aspectFitter.aspectRatio = aspectRatio;
+
+        aspectRatio = Mathf.Round(aspectRatio * 100.0f) * 0.01f;
+
+        if (aspectRatio > 1)
+            frame.sizeDelta = new Vector2(550, 420);
+        else if (aspectRatio < 1)
+            frame.sizeDelta = new Vector2(350, 420);
+        else
+            frame.sizeDelta = new Vector2(420, 420);
     }
 }
