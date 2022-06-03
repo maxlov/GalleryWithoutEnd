@@ -13,7 +13,7 @@ public class ArtFrame : MonoBehaviour
     [SerializeField] private AspectRatioFitter aspectFitter;
     [SerializeField] private RectTransform frame;
 
-    [SerializeField] private Image artwork;
+    [SerializeField] private RawImage artwork;
 
     [SerializeField] private TextMeshProUGUI title;
     [SerializeField] private TextMeshProUGUI artist;
@@ -54,10 +54,8 @@ public class ArtFrame : MonoBehaviour
 
         var rect = new Rect(0, 0, ArtPiece.Art.width, ArtPiece.Art.height);
 
-        artwork.sprite = Sprite.Create(ArtPiece.Art, rect, artwork.transform.position);
-
-        artwork.type = Image.Type.Simple;
-        artwork.preserveAspect = true;
+        artwork.texture = ArtPiece.Art;
+        artwork.SetNativeSize();
 
         SetupAspectRatio();
 
