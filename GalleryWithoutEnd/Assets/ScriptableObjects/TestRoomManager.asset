@@ -10,9 +10,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 71d6ec9e0b5300a4e8a5e6fdf0a67fe5, type: 3}
-  m_Name: RoomManager
+  m_Name: TestRoomManager
   m_EditorClassIdentifier: 
   RoomPrefabs:
-  - {fileID: 1777853410473964745, guid: 69e7ff67d4235354bbd3b53e20c2d298, type: 3}
-  - {fileID: 2011369395308708682, guid: 0fd2a321777bf3a4f864239d4224afb2, type: 3}
-  BlockedPrefab: {fileID: 3133038575214443800, guid: acd8b14939f495d4aaacbfefe83f2fda, type: 3}
+  - {fileID: 5449491238011880953, guid: 71055dd776ef3e74d8563e37d7d94628, type: 3}
+  BlockedPrefab: {fileID: 338847854383190154, guid: b4a6cc051e571f143ba919d6f9f31537, type: 3}

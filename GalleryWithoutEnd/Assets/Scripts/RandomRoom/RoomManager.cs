@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace RandomRoom
@@ -7,26 +8,50 @@ namespace RandomRoom
     public class RoomManager : ScriptableObject
     {
         [SerializeField] private List<GameObject> RoomPrefabs;
+        [SerializeField] private GameObject BlockedPrefab;
+
+        private void OnEnable()
+        {
+            if (RoomPrefabs == null || RoomPrefabs.Count == 0)
+                Debug.LogError("No rooms set in RoomManager " + this.name);
+            if (BlockedPrefab == null)
+                Debug.LogError("No prefab set for BlockedPrefab in RoomManager " + this.name);
+        }
 
         public void CreateRoom(Transform point)
         {
-            GameObject room = Instantiate(RoomPrefabs[Random.Range(0, RoomPrefabs.Count)], Vector3.zero, Quaternion.identity);
-            RoomNode roomNode = room.GetComponent<RoomNode>();
-            Transform newPoint = roomNode.GetRandomPoint().transform;
+            var randomPrefabList = RoomPrefabs.ToList();
+            ShuffleList(randomPrefabList);
 
-            var newPointRotation = Quaternion.FromToRotation(newPoint.forward, -point.forward);
-            room.transform.rotation *= newPointRotation;
+            foreach (var roomObject in randomPrefabList)
+            {
+                GameObject room = Instantiate(roomObject, Vector3.zero, Quaternion.identity);
+                var roomNode = room.GetComponent<RoomNode>();
 
-            if (room.transform.rotation.eulerAngles == new Vector3(0, 180, 180))
-                room.transform.rotation = Quaternion.Euler(0, 180, 0);
+                if (roomNode.SetupRoom(point))
+                {
+                    roomNode.RoomContent.SetActive(true);
+                    return;
+                }
 
-            Vector3 offset = room.transform.position - newPoint.position;
-            room.transform.position = point.position + offset;
+                Destroy(room);
+            }
 
-            point.transform.gameObject.SetActive(false);
-            newPoint.transform.gameObject.SetActive(false);
+            var blockNode = Instantiate(BlockedPrefab, Vector3.zero, Quaternion.identity).GetComponent<RoomNode>();
+            blockNode.SetupRoom(point);
+        }
 
-            roomNode.RoomContent.SetActive(true);
+        /// <summary>
+        /// Randomizes list, so it can be looped over randomly without repeat.
+        /// </summary>
+        /// <param name="objectList">List to randomize</param>
+        private static void ShuffleList(List<GameObject> objectList)
+        {
+            for (var i = 0; i < objectList.Count; i++)
+            {
+                var random = Random.Range(i, objectList.Count);
+                (objectList[random], objectList[i]) = (objectList[i], objectList[random]);
+            }
         }
     }
 }
