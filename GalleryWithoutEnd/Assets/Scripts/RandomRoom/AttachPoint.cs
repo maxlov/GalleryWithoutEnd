@@ -5,11 +5,11 @@ namespace RandomRoom
 {
     public class AttachPoint : MonoBehaviour
     {
-        [SerializeField] RoomManager roomManager;
+        [HideInInspector] public RoomManager RoomManager;
 
         private void OnMouseDown()
         {
-            roomManager.CreateRoom(transform);
+            RoomManager.CreateRoom(transform);
         }
     }
 }

@@ -15,4 +15,7 @@ MonoBehaviour:
   RoomPrefabs:
   - {fileID: 1777853410473964745, guid: 69e7ff67d4235354bbd3b53e20c2d298, type: 3}
   - {fileID: 2011369395308708682, guid: 0fd2a321777bf3a4f864239d4224afb2, type: 3}
+  - {fileID: 3852957187794716469, guid: 9dbdfa4aaa1b5e847b8d223ff6a810de, type: 3}
+  - {fileID: 1317873386272150611, guid: f23312749c38a05489e7b3e34b3ca0d9, type: 3}
   BlockedPrefab: {fileID: 3133038575214443800, guid: acd8b14939f495d4aaacbfefe83f2fda, type: 3}
+  UseArt: 1

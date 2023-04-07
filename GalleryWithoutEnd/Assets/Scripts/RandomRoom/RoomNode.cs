@@ -9,12 +9,13 @@ namespace RandomRoom
         [SerializeField] RoomManager roomManager;
 
         public List<AttachPoint> AttachPoints;
-        private List<AttachPoint> randomPoints;
+        [HideInInspector] public List<AttachPoint> randomPoints;
 
         public GameObject RoomContent;
+        public GameObject RoomArtwork;
 
-        public Transform[] OverlapTestPositions;
-        [SerializeField] private float overlapTestRadius = 4f;
+        public List<RoomCollisionPoint> CollisionPoints;
+        [SerializeField] private float collisionTestRadius = 4f;
 
         #region RoomSetup
 
@@ -22,6 +23,15 @@ namespace RandomRoom
         {
             randomPoints = AttachPoints;
             ShuffleList(randomPoints);
+
+            foreach (var point in CollisionPoints)
+            {
+                point.RoomManager = roomManager;
+                point.Room = this;
+            }
+
+            foreach (var point in AttachPoints)
+                point.RoomManager = roomManager;
         }
 
         /// <summary>
@@ -58,7 +68,6 @@ namespace RandomRoom
                 }
             }
 
-            Debug.Log(gameObject.name + " failed to find orientation");
             return false;
         }
 
@@ -71,9 +80,9 @@ namespace RandomRoom
         {
             var pointRotation = Quaternion.FromToRotation(newPoint.forward, -attachPoint.forward);
 
-            transform.rotation *= pointRotation;
+            transform.rotation = pointRotation;
 
-            if (transform.rotation.eulerAngles == new Vector3(0, 180, 180))
+            if (transform.rotation.eulerAngles.z == 180)
                 transform.rotation = Quaternion.Euler(0, 180, 0);
 
             var offset = transform.position - newPoint.position;
@@ -86,8 +95,8 @@ namespace RandomRoom
         /// <returns>True on collision, false on no collision</returns>
         private bool RoomColliding()
         {
-            return OverlapTestPositions.Any(position =>
-                Physics.OverlapSphere(position.position, overlapTestRadius).Length > 0);
+            return CollisionPoints.Any(position =>
+                Physics.OverlapSphere(position.transform.position, collisionTestRadius).Length > 0);
         }
 
         #endregion

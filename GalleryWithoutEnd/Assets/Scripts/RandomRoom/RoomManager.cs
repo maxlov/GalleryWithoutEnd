@@ -10,6 +10,9 @@ namespace RandomRoom
         [SerializeField] private List<GameObject> RoomPrefabs;
         [SerializeField] private GameObject BlockedPrefab;
 
+        [SerializeField] private bool UseArt;
+
+
         private void OnEnable()
         {
             if (RoomPrefabs == null || RoomPrefabs.Count == 0)
@@ -31,6 +34,10 @@ namespace RandomRoom
                 if (roomNode.SetupRoom(point))
                 {
                     roomNode.RoomContent.SetActive(true);
+
+                    if (UseArt && roomNode.RoomArtwork != null)
+                        roomNode.RoomArtwork.SetActive(true);
+
                     return;
                 }
 

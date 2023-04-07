@@ -6,8 +6,8 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 0
-    path: 
-    guid: 00000000000000000000000000000000
+    path: Assets/Scenes/GalleryWithoutEnd.unity
+    guid: 7b26cc42768ac4e4eac2fc9afb56b3f7
   m_configObjects:
     com.unity.xr.management.loader_settings: {fileID: 11400000, guid: 11c74e30f48ca824cb09934675369101, type: 2}
     com.unity.xr.openxr.settings4: {fileID: 11400000, guid: 0ab52cfa957d3ea4dab65abd2673736e, type: 2}
