@@ -1,15 +1,18 @@
-using System.Collections;
 using UnityEngine;
 
-public class PlayerManager : MonoBehaviour
+namespace GameManagers
 {
-    public static PlayerManager Instance { get; private set; }
-
-    [SerializeField] public GameObject Player;
-
-    private void Awake()
+    public class PlayerManager : MonoBehaviour
     {
-        if (!Instance)
-            Instance = this;
+        public static PlayerManager Instance { get; private set; }
+
+        [field: SerializeField] public GameObject Player { get; set; }
+        [field: SerializeField] public Camera PlayerCamera { get; set; }
+
+        private void Awake()
+        {
+            if (!Instance)
+                Instance = this;
+        }
     }
 }

@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using GameManagers;
 using UnityEngine;
 
 namespace GalleryWithoutEnd.UI.Menus
@@ -11,11 +12,9 @@ namespace GalleryWithoutEnd.UI.Menus
         private void Start()
         {
             _mapCamera = Instantiate(_mapCamera);
-            
-            var follower = _mapCamera.GetComponent<FollowTransform>();
 
-            if (follower)
-                follower.target = PlayerManager.Instance.Player.transform;
+            var follower = PlayerManager.Instance.PlayerCamera.GetComponent<FollowTransform>();
+            _mapCamera.GetComponent<FollowTransform>().target = follower.target;
         }
 
         private void OnDestroy()

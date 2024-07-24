@@ -234,7 +234,7 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 4314344966757434087, guid: cbfdee82e9cf74442bf0ef56ae2f1d09, type: 3}
   m_PrefabInstance: {fileID: 6753117036271879757}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &569396272
+--- !u!114 &4646080472438234110
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -243,8 +243,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 7379224722116805802}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 545261614bb346643aeb951ba8508e55, type: 3}
+  m_Script: {fileID: 11500000, guid: ffe4876639fa07f49bb661e886b112ae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _mapTexture: {fileID: 0}
-  _mapCamera: {fileID: 2018766750564442136, guid: 71e5f233a42d43e43bf9b78a106e381b, type: 3}
